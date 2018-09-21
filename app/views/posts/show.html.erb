@@ -1,0 +1,45 @@
+<p id="notice"><%= notice %></p>
+
+
+<!-- Posts -->
+<h2>
+  <strong>Title:</strong>
+  <%= @post.title %>
+</h2>
+
+<p>
+  <strong>Body:</strong>
+  <%= @post.body %>
+</p>
+
+<p>
+  <strong>Author:</strong>
+  <%= @post.user.email %>
+</p>
+
+
+<!-- Comments -->
+<h3>Comments <%= @post.comments.count %></h3>
+<br>
+<% @post.comments.each do |comment| %>
+
+  <p><%= comment.text %></p>
+  <p> By: <%= comment.user&.email %>&nbsp&nbsp&nbsp&nbsp&nbsp
+      <%= time_ago_in_words comment.created_at %> ago &nbsp&nbsp&nbsp&nbsp&nbsp
+      <%= link_to 'Delete Comment', [@post, comment], method: :delete, data: { confirm: 'Are you sure?' } %></p>
+      
+<% end %>
+
+<%= form_for [@post, @post.comments.build] do |f| %>
+  <p><%= f.text_area :text, size: '80x5' %></p>
+  <%= f.hidden_field :user_id, value: current_user.id %>
+
+  <p><%= f.submit "Post Comment" %></p>
+<% end %>
+
+
+
+
+<%= link_to 'Edit', edit_post_path(@post) %> |
+<%= link_to 'Back', posts_path %> |
+<%= link_to 'Delete', @post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
